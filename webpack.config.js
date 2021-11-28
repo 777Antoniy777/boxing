@@ -13,7 +13,7 @@ module.exports = {
         static: {
             directory: path.resolve(__dirname, './public'),
         },
-        port: 8080,
+        port: 3000,
         hot: isDev,
         open: true,
         historyApiFallback: true,
