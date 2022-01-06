@@ -4,24 +4,32 @@ export const UserActionType = {
   SET_AUTHORIZATION_STATUS: 'SET_AUTHORIZATION_STATUS',
 };
 
-const UserActions = {
+export const UserActions = {
   setAuthorizationStatus: createAction(UserActionType.SET_AUTHORIZATION_STATUS),
 };
 
-const UserAsyncActions = {
-  setAuthorizationStatus: () => async (dispatch, getState, api) => {
+export const UserAsyncActions = {
+  setAuthorizationStatus: (login: string, password: string) => async (dispatch, getState, api) => {
+    const body = {
+      username: login,
+      password,
+    };
+
+    const headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    };
+
     return api
-      .get(`/login`)
+      .post(`/login`, body, headers)
       .then((response) => {
         const data = response.data;
-        console.log('data', data)
+        console.log('data', data);
 
         dispatch(UserActions.setAuthorizationStatus('auth'));
       })
       .catch((error) => {
-        throw error;
+        console.log(error);
       });
-
-
   },
 };

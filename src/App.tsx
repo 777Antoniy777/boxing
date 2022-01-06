@@ -1,11 +1,11 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
-import { SignIn } from './pages/SignIn/SignIn';
+import { SignInContainer } from './pages/SignIn/SignIn';
 import { PrivateRoute } from './shared/components/PrivateRoute/PrivateRoute';
 import { Main } from './pages/Main/Main';
-import {RouteEnum} from "./shared/enums/route";
+import { RouteEnum } from './shared/enums/route';
 
-const isAuth = 'no_auth'
+const isAuth = 'no_auth';
 
 export const App = () => {
   return (
@@ -16,7 +16,7 @@ export const App = () => {
           authorizationStatus={isAuth}
           condRedirect={'no_auth'}
           linkRedirect={RouteEnum.Main}
-          render={(props: any) => <SignIn {...props} />}
+          render={(props: any) => <SignInContainer {...props} />}
         />
 
         <PrivateRoute

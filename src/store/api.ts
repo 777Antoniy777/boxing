@@ -1,6 +1,6 @@
-import axios from "axios";
+import axios from 'axios';
 
-const BASE_URL = `https://htmlacademy-react-3.appspot.com/six-cities`;
+const BASE_URL = `http://localhost:8080`;
 
 const Error = {
   UNAUTHORIZED: 401,
@@ -10,7 +10,7 @@ export const createAPI = (onUnauthorized) => {
   const axiosInstance = axios.create({
     baseURL: BASE_URL,
     timeout: 5000,
-    // withCredentials: true,
+    withCredentials: true,
   });
 
   const onSuccess = (response) => {
@@ -18,7 +18,7 @@ export const createAPI = (onUnauthorized) => {
   };
 
   const onError = (error) => {
-    const {response} = error;
+    const { response } = error;
 
     if (response.status === Error.UNAUTHORIZED) {
       onUnauthorized();
