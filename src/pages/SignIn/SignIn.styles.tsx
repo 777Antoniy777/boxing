@@ -29,6 +29,8 @@ export const useStyles = createUseStyles<RuleNames, ButtonProps>({
 
   loginSubmitButton: {
     position: 'relative',
+    backgroundColor: 'lightcoral',
+    cursor: 'pointer',
 
     '&::before': {
       content: '""',

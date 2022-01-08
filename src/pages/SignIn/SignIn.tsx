@@ -2,11 +2,19 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { UserAsyncActions } from '../../store/reducers/user/user.actions';
 import { useStyles } from './SignIn.styles';
-import {Button} from "../../shared/components/Button/Button";
+import { Button } from '../../shared/components/Button/Button';
+import { CounterActions } from '../../store/reducers/counter/counter.actions';
+import {useStoreActions, useStoreState} from "../../store/store";
 
 const SignIn = (props: any) => {
-  const { setAuthorizationStatus } = props;
+  // const { counter, setAuthorizationStatus, increaseCounter, decreaseCounter } = props;
   const styles = useStyles(props);
+
+  // easy-peasy
+  const todos = useStoreState((state) => state.todos);
+  const addTodo = useStoreActions((actions) => actions.addTodo);
+  const [value, setValue] = React.useState('');
+  //
 
   const [loginValue, setLoginValue] = useState('');
   const [passwordValue, setPasswordValue] = useState('12345');
@@ -25,11 +33,19 @@ const SignIn = (props: any) => {
     setPasswordValue(value);
   };
 
-  const handleButtonClick = (evt: any) => {
+  const handleSubmitButtonClick = (evt: any) => {
     evt.preventDefault();
 
-    setAuthorizationStatus(loginValue, passwordValue);
+    // setAuthorizationStatus(loginValue, passwordValue);
   };
+
+  // const handleIncreaseButtonClick = () => {
+  //   increaseCounter();
+  // };
+  //
+  // const handleDecreaseButtonClick = () => {
+  //   decreaseCounter();
+  // };
 
   return (
     <main className="main">
@@ -38,19 +54,56 @@ const SignIn = (props: any) => {
           <input type="text" value={loginValue} aria-label="Введите имя пользователя" onChange={handleLoginChange} />
           <input type="password" value={passwordValue} aria-label="Введите пароль" onChange={handlePasswordChange} />
 
-          <Button className={styles.loginSubmitButton} type="submit" onClick={handleButtonClick}>Войти</Button>
+          <Button className={styles.loginSubmitButton} type="submit" onClick={handleSubmitButtonClick}>
+            Войти
+          </Button>
         </form>
+      </section>
+
+      <section className="main__counter counter">
+        {/*<h2>*/}
+        {/*  Счетчик: <span>{counter}</span>*/}
+        {/*</h2>*/}
+
+        {/*<div>*/}
+        {/*  <button type="button" onClick={handleIncreaseButtonClick}>*/}
+        {/*    Увеличить*/}
+        {/*  </button>*/}
+        {/*  <button type="button" onClick={handleDecreaseButtonClick}>*/}
+        {/*    Уменьшить*/}
+        {/*  </button>*/}
+        {/*</div>*/}
+
+        <ul>
+          {todos.map((todo) => (
+            <li>{todo.text}</li>
+          ))}
+        </ul>
+
+        <div>
+          <input value={value} onChange={(evt) => setValue(evt.target.value)} />
+          <button onClick={() => addTodo({text: value, done: false})}>Add Todo</button>
+        </div>
       </section>
     </main>
   );
 };
 
-const mapStateToProps = (state) => ({});
-
-const mapDispatchToProps = (dispatch) => ({
-  setAuthorizationStatus: (login: string, password: string) => {
-    dispatch(UserAsyncActions.setAuthorizationStatus(login, password));
-  },
+const mapStateToProps = (state) => ({
+  // counter: state.counter.counter,
 });
 
-export const SignInContainer = connect(mapStateToProps, mapDispatchToProps)(SignIn);
+const mapDispatchToProps = (dispatch) => ({
+  // setAuthorizationStatus: (login: string, password: string) => {
+  //   dispatch(UserAsyncActions.setAuthorizationStatus(login, password));
+  // },
+  // increaseCounter: () => {
+  //   dispatch(CounterActions.increaseCounter());
+  // },
+  // decreaseCounter: () => {
+  //   dispatch(CounterActions.decreaseCounter());
+  // },
+});
+
+// export const SignInContainer = connect(mapStateToProps, mapDispatchToProps)(SignIn);
+export const SignInContainer = SignIn;
